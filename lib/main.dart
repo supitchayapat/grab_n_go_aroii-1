@@ -232,4 +232,5 @@ class SearchMerchantState extends State<SearchMerchant> {
           return 1;
         });
   }
+
 }
