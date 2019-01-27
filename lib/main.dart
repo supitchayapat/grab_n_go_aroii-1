@@ -282,4 +282,3 @@ class MerchantView extends StatelessWidget {
     // );
   }
 }
-
