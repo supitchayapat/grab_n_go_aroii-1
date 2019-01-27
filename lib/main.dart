@@ -99,13 +99,18 @@ class RandomWordsState extends State<RandomWords> {
     }
 }
 
+class RandomWords extends StatefulWidget{
+  @override
+  RandomWordsState createState() => new RandomWordsState();
+}
+
 class SearchMerchant extends StatefulWidget {
   @override
   GrabNGoPage createState() => new GrabNGoPage();
 }
 
 class GrabNGoPage extends State<SearchMerchant> {
-  // int _selectedIndex = 0;
+  int _selectedIndex = 0;
   List<String> _merchantLists = <String>['GG'];
   List<String> _merchantBts = <String>['A', 'B', 'C'];
   List<String> _merchantMrt = <String>['D', 'E', 'F'];
