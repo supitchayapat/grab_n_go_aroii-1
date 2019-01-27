@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primaryColor: Colors.yellow,
       ),
-      home: SearchMerchant(),
+      home: HomePage(),
     );
   }
 }
@@ -217,9 +217,9 @@ class SearchMerchantState extends State<SearchMerchant> {
       body: RandomWords(),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
-          BottomNavigationBarItem(icon: Icon(Icons.restaurant), title: Text('Merchant')),
-          BottomNavigationBarItem(icon: Icon(Icons.account_circle), title: Text('Profile'))
+          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home' , style: TextStyle(fontSize: 17.5),)),
+          BottomNavigationBarItem(icon: Icon(Icons.restaurant), title: Text('Merchant', style: TextStyle(fontSize: 17.5),)),
+          BottomNavigationBarItem(icon: Icon(Icons.account_circle), title: Text('Profile' , style: TextStyle(fontSize: 17.5),))
         ],
         currentIndex: _selectedIndex,
         fixedColor: Colors.deepOrange,
@@ -232,4 +232,95 @@ class SearchMerchantState extends State<SearchMerchant> {
           return 1;
         });
   }
+}
+class Store {
+  //--- Name Of Store
+  final String name;
+  //-- image
+  final String image;
+  //--- population
+  final String rate;
+
+  Store({this.name,this.rate,this.image}); 
+  static List<Store> allStore()
+{
+  var lstOfStore = new List<Store>();
+
+  lstOfStore.add(new Store(name:"ยูทาโกะ",rate: "5 star",image: "tako.jpg"));
+  lstOfStore.add(new Store(name:"ไข่เจียว",
+                 rate: "4 star",image: "ไข่เจียว.jpg"));
+  lstOfStore.add(new Store(name:"coffee prince",
+                  rate: "3.5 star",image: "coffee.jpg"));
+  lstOfStore.add(new Store(name:"twits potato",
+                 rate: "3.5 star",image: "potato.jpg"));
+  return lstOfStore;
+  
+}
+
+}
+
+class HomePage extends StatelessWidget {
+ 
+List<Store> _allStore = Store.allStore();
+
+HomePage();
+
+@override
+Widget build(BuildContext context) {
+  return new Scaffold(
+      appBar: new AppBar(
+        title: new Text(
+          "Store around หมอชิต",
+          style: new TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87),
+        ),
+      ),
+      body: new Padding(
+          padding: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+          child: getHomePageBody(context)));
+}
+
+getHomePageBody(BuildContext context) {
+  return ListView.builder(
+    itemCount: _allStore.length,
+    itemBuilder: _getItemUI,
+    padding: EdgeInsets.all(0.0),
+  );
+}
+  // First Attempt
+
+  Widget _getItemUI(BuildContext context, int index) {
+    return new Card(
+      child: new Column(
+    
+    children: <Widget>[
+      new ListTile(
+        leading: new Image.asset(
+          "assets/" + _allStore[index].image,
+          fit: BoxFit.cover,
+          width: 70.0,
+        ),
+
+        title: new Text(
+          _allStore[index].name,
+          style: new TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
+        ),
+        subtitle: new Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              new Text('Population: ${_allStore[index].rate}',
+                  style: new TextStyle(
+                      fontSize: 11.0, fontWeight: FontWeight.normal)),
+            ]),
+        //trailing: ,
+        onTap: () {
+          //change page
+        },
+      )
+    ],
+  ));
+}
 }
