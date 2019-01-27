@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
 import 'package:flutter/cupertino.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -15,88 +16,11 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.yellow,
       ),
       home: SearchMerchant(),
+      routes: <String, WidgetBuilder> {
+        "/YutakoPage": (BuildContext context) => new YutakoPage() 
+      },
     );
   }
-}
-
-class RandomWordsState extends State<RandomWords> {
-    final List<WordPair> _suggestions = <WordPair>[];
-    final Set<WordPair> _saved = new Set<WordPair>();
-    final TextStyle _biggerFont = const TextStyle(fontSize: 18.0);
-
-    Widget _buildSuggestion(){
-      return ListView.builder(
-        padding: const EdgeInsets.all(30.0),
-        itemBuilder: (context, i){
-          if (i.isOdd) return Divider();
-          final index = i ~/ 2;
-          if (index >= _suggestions.length){
-            _suggestions.addAll(generateWordPairs().take(1));
-          }
-          return _buildRow(_suggestions[index]);
-        });
-    }
-    Widget _buildRow(WordPair pair){
-      final bool alreadySaved = _saved.contains(pair);
-      return ListTile(
-        title: Text(
-          pair.asPascalCase,
-          style: _biggerFont,
-        ),
-        trailing: new Icon(
-          alreadySaved ? Icons.favorite : Icons.favorite_border,
-          color: alreadySaved ? Colors.red : null,
-        ),
-        onTap: (){
-          setState(() {
-            if (alreadySaved) {
-              _saved.remove(pair);
-            } else {
-              _saved.add(pair);
-            }
-          });
-        },
-      );
-    }
-    Widget build(BuildContext context) {
-      return Scaffold(
-        appBar:  AppBar(
-          title: Text('Grab & Go'),
-          actions: <Widget>[
-            new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved),
-          ],
-        ),
-        body: _buildSuggestion(),
-      );
-    }
-    void _pushSaved() {
-      Navigator.of(context).push(
-        new MaterialPageRoute<void>(
-          builder: (BuildContext context){
-            final Iterable<ListTile> tiles = _saved.map(
-              (WordPair pair) {
-                return new ListTile(
-                  title: new Text(
-                    pair.asPascalCase,
-                    style: _biggerFont,
-                  ),
-                );
-              },
-            );
-            final List<Widget> divided = ListTile.divideTiles(
-              context: context,
-              tiles: tiles,
-            ).toList();
-            return new Scaffold(
-              appBar: new AppBar(
-                title: const Text('Saved Suggestion'),
-              ),
-              body: new ListView(children: divided),
-            );
-          },
-        ),
-      );
-    }
 }
 
 class SearchMerchant extends StatefulWidget {
@@ -106,8 +30,8 @@ class SearchMerchant extends StatefulWidget {
 
 class GrabNGoPage extends State<SearchMerchant> {
   int _selectedIndex = 0;
-  List<String> _merchantLists = <String>['GG'];
-  List<String> _merchantBts = <String>['A', 'B', 'C'];
+  List<String> _merchantLists = <String>[];
+  List<String> _merchantBts = <String>['ยูทาโกะ', 'ไข่เจียวคุณหญิง', 'Coffee Prince', 'Twist Potato'];
   List<String> _merchantMrt = <String>['D', 'E', 'F'];
   List<String> _merchantArl = <String>['G', 'H', 'I']; 
   final List<String> _shoppingCart = <String>[];
@@ -140,7 +64,7 @@ class GrabNGoPage extends State<SearchMerchant> {
         length: 4,
         child: Scaffold(
           appBar: AppBar(
-            titleSpacing: 50,
+            // titleSpacing: 50,
             // backgroundColor: Colors.red,
             title: TabBar(
               // isScrollable: true,
@@ -152,14 +76,7 @@ class GrabNGoPage extends State<SearchMerchant> {
               }).toList(),
             ),
           ),
-        body: TabBarView(
-          children: tabList.map((Tabs tabs) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: MerchantView(tab: tabs,),
-            );
-          }).toList(),
-        ),
+        body: _buildMerchantList('BTS'),
         // body: _buildMerchantList(),  
         ),
       ),
@@ -174,20 +91,22 @@ class GrabNGoPage extends State<SearchMerchant> {
       padding: EdgeInsets.all(30.0),
       itemCount: _merchantLists.length,
       itemBuilder: (context, i){
-      return _buildRow(_merchantLists[i]);
+        return _buildRow(_merchantLists[i], i);
       },
     );    
   }
-  Widget _buildRow(String merchant){
+  Widget _buildRow(String merchant, int i){
     return ListTile(
-        title: Text(merchant, style: const TextStyle(fontSize: 30.0),),
-        trailing: new Icon(Icons.chevron_right),
-        onTap: (){
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MerchantPage()),
-            );
-        },
+      contentPadding: EdgeInsets.all(30.0),
+      leading: new Image.asset('assets/'+ _merchantLists[i] +'.jpg', fit: BoxFit.cover, width: 70.0,),
+      title: Text(merchant, style: const TextStyle(fontSize: 22.0),),
+      trailing: new Icon(Icons.chevron_right),
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => YutakoPage()),
+        );
+      },
     );
   }
   void _onItemTapped(int index){
@@ -200,26 +119,27 @@ class GrabNGoPage extends State<SearchMerchant> {
   }
 }
 
-class MerchantPage extends StatelessWidget {
+class YutakoPage extends StatelessWidget {
   @override
   Widget build (BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text('Merchant Page'),
+        title: Text('ยูทาโกะ'),
         actions: <Widget>[
           // new IconButton(icon: Icon(Icons.backspace), onPressed: (){},)
         ],
       ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: (){
-            Navigator.push(
-              context, 
-              MaterialPageRoute(builder: (context) => ShoppingCart()),
-            );
-          },
-        ),
-      ),
+      body: ListView.builder(
+        padding: EdgeInsets.all(30.0),
+        itemCount: 10,
+        itemBuilder: (context, i){
+          return ListTile(
+            contentPadding: EdgeInsets.all(30.0),
+            leading: Text('Menu '+ i.toString(), style: TextStyle(fontSize: 18.0),),
+            subtitle: Text('Price: ' + (i+10).toString()),
+          );
+        },
+      )
     );
   }
 }
@@ -269,16 +189,22 @@ class MerchantView extends StatelessWidget {
     return Card(
       child: GrabNGoPage()._buildMerchantList(tab.title),
     );
-    // return Card(
-    //   child: Center(
-    //     child: Column(
-    //       mainAxisSize: MainAxisSize.min,
-    //       crossAxisAlignment: CrossAxisAlignment.center,
-    //       children: <Widget>[
-    //         Icon(tab.icon, size: 128.0,)
-    //       ],
-    //     ),
-    //   ),
-    // );
+  }
+}
+
+class Store {
+  final String name;
+  final String image;
+  final String rate;
+
+  Store({this.name, this.image, this.rate});
+  static List<Store> allStore(){
+    var lstOfStore = new List<Store>();
+    lstOfStore.add(new Store(name:"ยูทาโกะ",rate: "5 star",image: "tako.jpg"));
+    lstOfStore.add(new Store(name:"ไข่เจียว", rate: "4 star",image: "ไข่เจียว.jpg"));
+    lstOfStore.add(new Store(name:"coffee prince", rate: "3.5 star",image: "coffee.jpg"));
+    lstOfStore.add(new Store(name:"twits potato", rate: "3.5 star",image: "potato.jpg"));
+  
+  return lstOfStore;
   }
 }
