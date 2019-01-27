@@ -105,7 +105,7 @@ class SearchMerchant extends StatefulWidget {
 }
 
 class GrabNGoPage extends State<SearchMerchant> {
-  int _selectedIndex = 0;
+  // int _selectedIndex = 0;
   List<String> _merchantLists = <String>['GG'];
   List<String> _merchantBts = <String>['A', 'B', 'C'];
   List<String> _merchantMrt = <String>['D', 'E', 'F'];
