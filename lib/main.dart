@@ -302,14 +302,43 @@ class MerchantPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Merchant Page'),
+        actions: <Widget>[
+          // new IconButton(icon: Icon(Icons.backspace), onPressed: (){},)
+        ],
       ),
       body: Center(
         child: RaisedButton(
           onPressed: (){
-            Navigator.pop(context);
+            Navigator.push(
+              context, 
+              MaterialPageRoute(builder: (context) => ShoppingCart()),
+            );
           },
         ),
       ),
     );
   }
 }
+
+class OrderHistory extends StatelessWidget {
+  @override
+  Widget build (BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Order History'),
+      ),
+    );
+  }
+}
+
+class ShoppingCart extends StatelessWidget {
+   @override
+  Widget build (BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Shopping Cart'),
+      ),
+    );
+  }  
+}
+
