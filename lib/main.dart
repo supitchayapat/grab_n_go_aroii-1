@@ -208,13 +208,23 @@ class SearchMerchant extends StatefulWidget {
 
 class SearchMerchantState extends State<SearchMerchant> {
   int _selectedIndex = 0;
+  List<String> _merchantLists = <String>[];
+  List<String> _merchantBts = <String>['A', 'B', 'C'];
+  List<String> _merchantMrt = <String>['D', 'E', 'F'];
+  List<String> _merchantArl = <String>['G', 'H', 'I']; 
+  final List<String> _shoppingCart = <String>[];
   // final List<String> _MerchantList = ['A', 'B', 'C'];
   Widget build(BuildContext context){
-    return Scaffold(
+    return 
+    Scaffold(
       appBar: AppBar(
         title: Text("Grab & Go"),
+        actions: <Widget>[
+          new IconButton(icon:  const Icon(Icons.shopping_cart), onPressed: _showCart,),
+          new IconButton(icon: Icon(Icons.train), onPressed: (){},)
+        ],
       ),
-      body: RandomWords(),
+      body: _buildHomePageDetail(),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
@@ -227,9 +237,79 @@ class SearchMerchantState extends State<SearchMerchant> {
       ),
     );
   }
+  Widget _buildHomePageDetail(){
+    return new MaterialApp(
+      home: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+            titleSpacing: 50,
+            // backgroundColor: Colors.red,
+            title: TabBar(
+              // isScrollable: true,
+              tabs: <Widget>[
+                new IconButton(icon: Icon(Icons.train, size: 40, textDirection: TextDirection.rtl,), onPressed: (){
+                  setState(() {
+                    _merchantLists = _merchantBts;
+                    });  
+                    },
+                  ),
+                new IconButton(icon: Icon(Icons.train, size: 40, textDirection: TextDirection.rtl,), onPressed: (){ _merchantLists = _merchantMrt; },),
+                new IconButton(icon: Icon(Icons.train, size: 40, textDirection: TextDirection.rtl,), onPressed: (){ _merchantLists = _merchantArl; },),
+                new IconButton(icon: Icon(Icons.airport_shuttle, size: 40, textDirection: TextDirection.rtl,), onPressed: (){ _merchantLists = _merchantBts; },),
+                ],
+            ),
+          ),
+        body: _buildMerchantList(),  
+        ),
+      ),
+    );
+  }
+  Widget _buildMerchantList(){
+    return ListView.builder(
+      padding: EdgeInsets.all(30.0),
+      itemCount: _merchantLists.length,
+      itemBuilder: (context, i){
+      return _buildRow(_merchantLists[i]);
+      },
+    );    
+  }
+  Widget _buildRow(String merchant){
+    return ListTile(
+        title: Text(merchant, style: const TextStyle(fontSize: 30.0),),
+        trailing: new Icon(Icons.chevron_right),
+        onTap: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MerchantPage()),
+            );
+        },
+    );
+  }
   void _onItemTapped(int index){
     setState(() {
-          return 1;
+          _selectedIndex = index;
         });
+  }
+  void _showCart(){
+
+  }
+}
+
+class MerchantPage extends StatelessWidget {
+  @override
+  Widget build (BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Merchant Page'),
+      ),
+      body: Center(
+        child: RaisedButton(
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    );
   }
 }
