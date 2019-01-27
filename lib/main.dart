@@ -4,9 +4,10 @@ class Order {
   String name;
   int price;
   int orderNumber;
+  String time;
   bool confirm;
 
-  Order(this.name, this.price, this.orderNumber, this.confirm);
+  Order(this.name, this.price, this.orderNumber, this.time, this.confirm);
   
 }
 
@@ -44,7 +45,7 @@ class _OrderItemState extends State<OrderItemList> {
               })
         ],
       ),
-      subtitle: Text('total: ' + order.price.toString() + ' baht'),
+      subtitle: Text('total: '+order.price.toString()+' baht,'+' time: '+order.time.toString()),
     );
   }
 }
@@ -98,26 +99,26 @@ void main() {
   runApp(new MaterialApp(
     title: 'Demo App',
       home: new OrderList(order: [
-        new Order('Isa Tusa', 150, 1, false),
-        new Order('Racquel Ricciardi', 50, 2, false),
-        new Order('Teresita Mccubbin', 75, 3, false),
-        new Order('Rhoda Hassinger', 65, 4, false),
-        new Order('Carson Cupps', 300, 5, false),
-        new Order('Devora Nantz', 100, 6, false),
-        new Order('Tyisha Primus', 40, 7, false),
-        new Order('Muriel Lewellyn', 1000, 8, false),
-        new Order('Hunter Giraud', 600, 9, false),
-        new Order('Corina Whiddon', 80, 10, false),
-        new Order('Meaghan Covarrubias', 90, 11, false),
-        new Order('Ulysses Severson', 120, 12, false),
-        new Order('Richard Baxter', 140, 13, false),
-        new Order('Alessandra Kahn', 110, 14, false),
-        new Order('Libby Saari', 200, 15, false),
-        new Order('Valeria Salvador', 220, 16, false),
-        new Order('Fredrick Folkerts', 350, 17, false),
-        new Order('Delmy Izzi', 450, 18, false),
-        new Order('Leann Klock', 700, 19, false),
-        new Order('Rhiannon Macfarlane', 750, 20, false),
+        new Order('Isa Tusa', 150, 1, '11:20', false),
+        new Order('Racquel Ricciardi', 50, 2, '09:39', false),
+        new Order('Teresita Mccubbin', 75, 3, '10:41', false),
+        new Order('Rhoda Hassinger', 65, 4, '09:10', false),
+        new Order('Carson Cupps', 300, 5, '16:50', false),
+        new Order('Devora Nantz', 100, 6, '15:00', false),
+        new Order('Tyisha Primus', 40, 7, '13:18', false),
+        new Order('Muriel Lewellyn', 1000, 8, '12:20', false),
+        new Order('Hunter Giraud', 600, 9, '11:06', false),
+        new Order('Corina Whiddon', 80, 10, '13:10', false),
+        new Order('Meaghan Covarrubias', 90, 11, '12:12', false),
+        new Order('Ulysses Severson', 120, 12, '09:14', false),
+        new Order('Richard Baxter', 140, 13, '14:10', false),
+        new Order('Alessandra Kahn', 110, 14, '13:35', false),
+        new Order('Libby Saari', 200, 15, '10:38', false),
+        new Order('Valeria Salvador', 220, 16, '09:56', false),
+        new Order('Fredrick Folkerts', 350, 17, '16:10', false),
+        new Order('Delmy Izzi', 450, 18, '09:32', false),
+        new Order('Leann Klock', 700, 19, '11:30', false),
+        new Order('Rhiannon Macfarlane', 750, 20, '12:35', false),
       ],),
     ));
 }
